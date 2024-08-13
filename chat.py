@@ -117,6 +117,11 @@ class ChatUI:
 
         self.formattedcontents = self.message_entry.get(1.0, 'end-1c')
 
+        if re.match(r"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+                    self.ip_entry.get()):
+            self.entered_ip = self.ip_entry.get()
+        else:
+            self.entered_ip = socket.gethostbyname(self.ip_entry.get())
 
         print(f'Message: {self.formattedcontents}')
         if self.formattedcontents != "":
