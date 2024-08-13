@@ -54,6 +54,23 @@ class Peer:
         print(f"Sending '{messageContents}' to {target_ip}:{target_port}")
         self.s.sendto(messageContents.encode(), (target_ip, target_port))
 
+    def receive_message(self):
+        self.s.settimeout(1)
+        while self.start_thread:
+            try:
+                print("Waiting on message!")
+                data, addr = self.s.recvfrom(1024)
+                print("Received!")
+                print(f"Received {data.decode()}")
+                if addr[0] != self.my_ip:
+                    messageBox(self.chat_ui.chat_scrollframe, data.decode(), addr[0])
+                notification.notify(
+                    title=f"Message from {socket.gethostbyaddr(addr[0])[0]}",
+                    message=data.decode(),
+                    app_name="simplezchat",
+                    timeout=5)
+            except socket.timeout:
+                continue
 
 
 class ChatUI:
