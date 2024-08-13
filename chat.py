@@ -118,6 +118,12 @@ class ChatUI:
         self.formattedcontents = self.message_entry.get(1.0, 'end-1c')
 
 
+        print(f'Message: {self.formattedcontents}')
+        if self.formattedcontents != "":
+            self.connectpeer.send_message(self.entered_ip, 12345, self.formattedcontents)
+            self.message_entry.delete(1.0, 'end-1c')
+
+            messageBox(self.chat_scrollframe, self.formattedcontents, socket.gethostbyname(socket.gethostname()))
 
 
 class messageBox:
